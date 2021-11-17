@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_view/comment_model.dart';
 import 'package:recipe_view/comments.dart';
 import 'package:recipe_view/ingrediants.dart';
-import 'package:recipe_view/rating.dart';
+
 import 'package:recipe_view/rating_recipe.dart';
 import 'package:recipe_view/recipe_model.dart';
 import 'package:recipe_view/view_reicpe_flotingbutton.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class recipe_view extends StatelessWidget {
   @override
@@ -59,6 +62,10 @@ class recipe_view extends StatelessWidget {
 
     //-------------
     return Scaffold(
+      appBar: new AppBar(
+        title: Text(a.recipeName),
+        backgroundColor: Color(0xFFeb6d44),
+      ),
       floatingActionButton: ExpandableFab(
         distance: 100.0,
         children: [
@@ -69,8 +76,14 @@ class recipe_view extends StatelessWidget {
           Rating_recipe(),
           ActionButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => commentsScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Comment(
+                            recipeId: a.id,
+                            userId: a.recipeName,
+                            msg: a.imageURL,
+                          )));
             },
             icon: const Icon(Icons.comment_sharp),
           ),
@@ -79,6 +92,7 @@ class recipe_view extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           //ExampleExpandableFab(),
+
           //---------------------image and bookmarked and shear button---------------
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
@@ -93,7 +107,7 @@ class recipe_view extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  left: 20,
+                  left: 10,
                   top: 10,
                   child: Row(
                     children: [
@@ -118,12 +132,57 @@ class recipe_view extends StatelessWidget {
                     ],
                   ),
                 ),
+                Positioned(
+                  bottom: 2,
+                  left: 2,
+                  child:
+                      //------------------------ Rating of recipe -------------------------------------
+                      Container(
+                    padding: EdgeInsets.all(3),
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(children: [
+                        Text(
+                          '4',
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 6),
+                          child: Column(
+                            children: [
+                              RatingBarIndicator(
+                                  rating: 4,
+                                  itemBuilder: (context, index) => Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                  itemCount: 5,
+                                  itemSize: 17.0,
+                                  direction: Axis.horizontal),
+                              Text(
+                                '3 Reviews',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
+
           //-------------------------ginral discription ------------------------------------
           Container(
-            margin: EdgeInsets.only(bottom: 5),
+            margin: EdgeInsets.only(
+              bottom: 15,
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

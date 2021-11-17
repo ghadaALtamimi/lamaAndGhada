@@ -30,7 +30,7 @@ class ingred extends State<ingrediants> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+          padding: EdgeInsets.only(bottom: 10, left: 10, right: 10, top: 5),
           //color: Color(0xFFeb6d44),
           width: 380,
           decoration: BoxDecoration(
