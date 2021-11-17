@@ -1,63 +1,110 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_view/checkboxState.dart';
+
+import 'checkboxState.dart';
 
 class ingrediants extends StatefulWidget {
-  List<String> listOfin = [];
+  List<String> listOfin;
+  String title;
+  int s = 1;
+  List<checkboxState> listOfIngrediant = [];
+  ingrediants(this.listOfin, this.title);
+
   @override
-  State<StatefulWidget> createState() => listOfingrediants();
+  State<StatefulWidget> createState() => ingred();
 }
 
-class listOfingrediants extends State<ingrediants> {
-  bool outvalue = false; //outvalue is change the state of check list
-  var checkedstyle = TextDecoration.none;
-  // var listOfIngrediant = [
-  //   checkboxState(title: "Milk"),
-  //   checkboxState(title: "Eggs"),
-  //   checkboxState(title: "Cream"),
-  //   checkboxState(title: "Sugar"),
-  // ];
+bool outvalue = false; //outvalue is change the state of check list
+var checkedstyle = TextDecoration.none;
+//List<checkboxState> listOfIngrediant = [];
+
+class ingred extends State<ingrediants> {
   @override
   Widget build(BuildContext context) {
-    List<String> ingrediantFromDataBase = ["hjj", "jjkj"];
-
-    List<checkboxState> listOfIngrediant = [
-      // checkboxState(title: "Milk"),
-      // checkboxState(title: "Eggs"),
-      // checkboxState(title: "Cream"),
-      // checkboxState(title: "Sugar"),
-    ];
-    //------------------from datatbase-----------------------
-//     List<Offset> pointList = <Offset>[];
-
-// getdata() async{
-//   await Firestore.instance.collection("points").document('biZV7cepFJA8T6FTcF08').get().then((value){
-// setState(() {
-//       // first add the data to the Offset object
-//       List.from(value.data['point']).forEach((element){
-//           Offset data = new Offset(element);
-
-//           //then add the data to the List<Offset>, now we have a type Offset
-//           pointList.add(data);
-//       });
-
-//       });
-//    });
-//   }
-    //--------------------
-    for (int i = 0; i < ingrediantFromDataBase.length; i++) {
-      listOfIngrediant.add(checkboxState(title: ingrediantFromDataBase[i]));
+    for (int i = 0; i < widget.listOfin.length; i++) {
+      if (widget.s != 0)
+        widget.listOfIngrediant.add(checkboxState(title: widget.listOfin[i]));
+      else
+        break;
     }
-    return Scaffold(
-      body: ListView(padding: EdgeInsets.all(12), children: [
+    widget.s = 0;
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+          //color: Color(0xFFeb6d44),
+          width: 380,
+          decoration: BoxDecoration(
+            color: Color(0xFFeb6d44),
+            // border: Border.all(color: Color(0xFFeb6d44), width: 1),
+            borderRadius: BorderRadius.circular(5),
+            // shape: BoxShape.rectangle,
+          ),
+          child: Center(
+            child: Text(
+              widget.title,
+              style: TextStyle(
+                //backgroundColor: Colors.grey[50],
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
+        // Container(
+        //   width: double.infinity,
+        //   height: 200,
+        //   margin: EdgeInsets.fromLTRB(10, 15, 30, 10),
+        //   padding: EdgeInsets.only(bottom: 3, top: 15),
+        //   decoration: BoxDecoration(
+        //     // border: Border.all(color: Color(0xFFeb6d44), width: 1),
+        //     borderRadius: BorderRadius.circular(5),
+        //     shape: BoxShape.rectangle,
+        //   ),
+        // child: ListView(children: [
+        ...widget.listOfIngrediant.map(creatCheckbox).toList(),
         //Text(listOfIngrediant[0].title)
-        ...listOfIngrediant.map(creatCheckbox).toList(),
-      ]),
+        // ]),
+        // ),
+        // Positioned(
+        //     left: 20,
+        //     top: 5,
+        //     child: Container(
+        //       padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+        //       //color: Color(0xFFeb6d44),
+        //       width: 380,
+        //       decoration: BoxDecoration(
+        //         color: Color(0xFFeb6d44),
+        //         // border: Border.all(color: Color(0xFFeb6d44), width: 1),
+        //         borderRadius: BorderRadius.circular(5),
+        //         // shape: BoxShape.rectangle,
+        //       ),
+        //       child: Center(
+        //         child: Text(
+        //           widget.title,
+        //           style: TextStyle(
+        //             //backgroundColor: Colors.grey[50],
+        //             fontSize: 17,
+        //             fontWeight: FontWeight.bold,
+        //             color: Colors.white,
+        //           ),
+        //         ),
+        //       ),
+        //     )
+        //     ),
+      ],
     );
+
+    // ListView(children: [
+    //   ...listOfIngrediant.map(creatCheckbox).toList(),
+    //   //Text(listOfIngrediant[0].title)
+    // ]);
   }
 
   Widget creatCheckbox(checkboxState checkbox) => CheckboxListTile(
       controlAffinity: ListTileControlAffinity.leading,
       activeColor: Color(0xFFeb6d44),
+      //contentPadding: EdgeInsets.only(left: 80),
       value: checkbox.outvalue,
       title: Text(checkbox.title,
           style: TextStyle(

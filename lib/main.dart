@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_view/ingrediants.dart';
 import 'package:recipe_view/recipe_view_screen.dart';
 
 void main() {
@@ -11,7 +12,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    List<String> a = ["jjj", "kjk"];
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       home: recipe_view(),
     );
